@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: dfp-gateway
+
+eureka:
+  instance:
+    hostname: 127.0.0.1
+    metadata-map:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9001/eureka/
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    system:
+      path: /system/**
+      serviceId: daas-standard-system-service
+      stripPrefix: false
+
+feign:
+  okhttp:
+    enabled: true
